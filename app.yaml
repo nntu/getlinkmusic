@@ -1,0 +1,23 @@
+application: getlinkmusic
+runtime: python27
+api_version: 1
+threadsafe: no
+version: 1
+
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /bootstrap
+  static_dir: bootstrap
+
+- url: .*
+  script: main.py
+
+libraries:
+- name: lxml
+  version: "latest"
+- name: jinja2
+  version: latest
