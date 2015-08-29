@@ -9,7 +9,7 @@ def nhaccuatui_new(url):
     listnhac = []
     response = urlfetch.fetch(url)
     the_page = response.content
-    p = re.compile(r"http://www.nhaccuatui.com/flash/xml([?\d\w=\d]*)")
+    p = re.compile(r"http://www.nhaccuatui.com/flash/xml([?\&\d\w=\d]*)")
     xmlurl = p.search(the_page).group()
 
     xmlpage = urlfetch.fetch(xmlurl)
