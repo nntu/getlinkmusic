@@ -6,13 +6,17 @@
         <option name="rootFolder" value="D:\python\getlinkmusic" />
         <option name="sdkFolder" value="C:\Google\google_appengine" />
         <option name="templatesFolder" value="" />
-        <option name="oauth2" value="true" />
+        <option name="email" value="ngoctuct@gmail.com" />
+        <option name="gp" value="dfc7dfc3dfc9dfc1dfcfdfd3df9bdf93df92df9c" />
+        <option name="oauth2" value="false" />
+        <option name="deployConfigured" value="true" />
+        <option name="saveCredentials" value="true" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7.10 (C:\Python27\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Google App Engine SDK" level="project" />
   </component>

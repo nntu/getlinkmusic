@@ -19,12 +19,13 @@ import os
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
-from dbsongs import dbsongs
+from dbsongs import *
 from google.appengine.ext import ndb
 from lib import *
 import json
 import jinja2
 import logging
+import datetime
 jinja_environment = jinja2.Environment(autoescape=True,
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
 
@@ -62,34 +63,42 @@ class JsonHandler(webapp.RequestHandler):
 
         url = self.request.get('tb_link')
         listlink = nhaccuatui_new(url)
-        # try:
-        #     for i in listlink:
-        #         logging.info(i['title'])
-        #         dbsongs.get_or_insert(title = i['title'],creator=i['creator'],location =i['location'], lyric= i['lyric'] )
-        # except:
-        #     logging.error('There was an error retrieving posts from the datastore')
-        #     pass
-        # for i in listlink:
-        #     key = hashlib.md5(('%s:%s'% (i['title'],i['creator'])).encode('utf-8')).hexdigest()
-        #     logging.info(key)
-        #     sandy_key = ndb.Key(dbsongs,key)
-        #     dbsongs.get_or_insert(sandy_key,title = i['title'],creator=i['creator'],location =i['location'], lyric= i['lyric'] )
-        for i in listlink:
-            query = dbsongs().query(dbsongs.creator== i['creator'] ,  dbsongs.title ==   i['title'] )
-
-            if not query.get():
-                db = dbsongs()
-                db.title = i['title']
-                db.creator=i['creator']
-                db.location =i['location']
-                db.lyric= i['lyric']
-                db.put()
-
-
+        ip = self.request.remote_addr
+        try:
+            log = Log()
+            log.ip_address = ip
+            log.put()
+            for i in listlink:
+                query = dbsongs().query(dbsongs.creator== i['creator'] ,  dbsongs.title ==   i['title'] )
+                if not query.get():
+                    db = dbsongs()
+                    db.title = i['title']
+                    db.creator=i['creator']
+                    db.location =i['location']
+                    db.lyric= i['lyric']
+                    db.put()
+        except:
+             logging.error('There was an error retrieving posts from the datastore')
+             pass
         self.response.out.write(json.dumps({"data":listlink}))
 
+class ExportscsvHandler(webapp.RequestHandler):
+     def post(self):
+         query = dbsongs().all()
+
+class deletealldbsongHandler(webapp.RequestHandler):
+     def get(self):
+         self.response.out.write("<h1>xoa xong</h1>")
+
+
+
+
 def main():
-    application = webapp.WSGIApplication([('/', MainHandler),('/getlink', GetLinkHandler),('/getlinkjson', JsonHandler)],
+    application = webapp.WSGIApplication([('/', MainHandler),
+                                          ('/getlink', GetLinkHandler),
+                                          ('/getlinkjson', JsonHandler),
+                                          ('/exportscsv', ExportscsvHandler),('/deletealldbsong', deletealldbsongHandler)
+                                         ],
                                          debug=True)
     util.run_wsgi_app(application)
 

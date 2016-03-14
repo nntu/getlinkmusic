@@ -4,11 +4,15 @@ api_version: 1
 threadsafe: no
 version: 1
 
+builtins:
+- remote_api: on
 
 handlers:
+
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+
 
 - url: /bootstrap
   static_dir: bootstrap
@@ -16,8 +20,12 @@ handlers:
 - url: .*
   script: main.py
 
+
+
+
 libraries:
 - name: lxml
   version: "latest"
 - name: jinja2
   version: latest
+
